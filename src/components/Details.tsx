@@ -5,7 +5,7 @@ import { useFetch } from "../hooks/useFetch";
 import pika from '../assets/pikachu_oscuro.png';
 import { Sparkles, Star } from "lucide-react"; 
 
-type Pokemon = {
+/* type Pokemon = {
   name: string;
   id: number;
   types: string[];
@@ -14,9 +14,9 @@ type Pokemon = {
   weight: number;
   abilities: string[];
   stats: Stats;
-};
+}; */
 
-type Stats = {
+/* type Stats = {
   hp: number;
   attack: number;
   defense: number;
@@ -24,8 +24,8 @@ type Stats = {
   special_defense: number;
   speed: number;
 };
-
-type Type = {
+ */
+/* type Type = {
   slot: number;
   type: {
     name: string;
@@ -38,6 +38,42 @@ type Ability = {
     name: string;
     url: string;
   };
+}; */
+
+
+type Pokemon = {
+  id: number;
+  name: string;
+  height: number;                  
+  weight: number;                    
+  types: { 
+    slot: number; 
+    type: { 
+      name: string; 
+      url: string; 
+    }; 
+  }[];
+  sprites: {
+    front_default?: string;
+    front_shiny?: string;
+    [key: string]: string | undefined;
+  };
+  abilities: {                      
+    ability: {
+      name: string;
+      url: string;
+    };
+    is_hidden: boolean;
+    slot: number;
+  }[];
+  stats: {                         
+    base_stat: number;
+    effort: number;
+    stat: {
+      name: string;
+      url: string;
+    };
+  }[];
 };
 
 function Details() {
@@ -45,7 +81,7 @@ function Details() {
   const { name } = useParams();
  const [isShiny, setIsShiny] = useState(false);
  /*  const [pokemon, setPokemon] = useState<Pokemon | null>(null); */
-   const { data, getDataAxios, error, loading, setData } = useFetch<Pokemon | null>();
+   const { data, getDataAxios,  loading} = useFetch();
 
 
    useEffect(() => {
@@ -126,32 +162,32 @@ function Details() {
  
     return {
       // Datos básicos
-      name: data.name,
-      id: data.id,
-      height: data.height,
-      weight: data.weight,
+      name: (data as Pokemon)?.name,
+      id: (data as Pokemon)?.id,
+      height: (data as Pokemon)?.height,
+      weight: (data as Pokemon)?.weight,
       
       // Transformar types
-      types: data.types?.map((t) => t.type.name) || [],
+      types: (data as Pokemon)?.types?.map((t) => t.type.name) || [],
       
       // Agarrar solo las imágenes que necesitas
       images: {
-        normal: data.sprites?.front_default,
-        shiny: data.sprites?.front_shiny,
+        normal: (data as Pokemon)?.sprites?.front_default,
+        shiny: (data as Pokemon)?.sprites?.front_shiny,
         
       },
       
       // Transformar abilities
-      abilities: data.abilities?.map((ab) => ab.ability.name) || [],
+      abilities: (data as Pokemon)?.abilities?.map((ab) => ab.ability.name) || [],
       
       // Agarrar stats específicos
       stats: {
-        hp: data.stats?.[0]?.base_stat || 0,
-        attack: data.stats?.[1]?.base_stat || 0,
-        defense: data.stats?.[2]?.base_stat || 0,
-        special_attack: data.stats?.[3]?.base_stat || 0,
-        special_defense: data.stats?.[4]?.base_stat || 0,
-        speed: data.stats?.[5]?.base_stat || 0,
+        hp: (data as Pokemon)?.stats?.[0]?.base_stat || 0,
+        attack: (data as Pokemon)?.stats?.[1]?.base_stat || 0,
+        defense: (data as Pokemon)?.stats?.[2]?.base_stat || 0,
+        special_attack: (data as Pokemon)?.stats?.[3]?.base_stat || 0,
+        special_defense: (data as Pokemon)?.stats?.[4]?.base_stat || 0,
+        speed: (data as Pokemon)?.stats?.[5]?.base_stat || 0,
       }
     };
   }, [data]);
@@ -160,16 +196,16 @@ function Details() {
     <div  className='details__container
         flex flex-col mx-auto
         lg:w-[70%] w-full min-[350px]
-        text-pri-dark 
+        text-pri-dark
         border-8 rounded-2xl p-6
         transition-all duration-500
        
       ' 
      style={{
-    borderColor: getTypeDarkColor(data?.types?.[0]?.type?.name),
+    borderColor: getTypeDarkColor(((data as unknown as Pokemon | undefined)?.types?.[0]?.type?.name) ?? "normal"),
     background: isShiny 
       ? 'linear-gradient(135deg, #fffbeb 0%, #fef3c7 25%, #fde68a 50%, #fbbf24 100%)'
-      : getTypeMediumColor(data?.types?.[0]?.type?.name),
+      : getTypeMediumColor(((data as unknown as Pokemon)?.types?.[0]?.type?.name)),
    
   }}
       >
@@ -198,11 +234,12 @@ function Details() {
         </div>
       )}
 
-
+{data &&  (
+<div>
 <div className="flex  flex-col sm:flex-row ">
       <div className=" w-full sm:w-[50%] md:w-[50%] lg:w-[50%]  p-4 ">
         <h2 className="font-bold">{name?.toUpperCase()}</h2>
-<p className="p-4">#{data?.id.toString().padStart(4, "0")}</p>
+<p className="p-4">#{pokemon?.id?.toString().padStart(4, "0")}</p>
 <div className="flex justify-center w-full relative py-4">
             <div className="relative">
               <img 
@@ -355,11 +392,11 @@ function Details() {
 
       <div className="flex flex-col p-4 mx-auto mt-4">
         <h3 className="flex justify-center font-bold mb-4">HABILITIES</h3>
-         <div  className="flex flex-row ">
-         {pokemon?.abilities.map((ab) => {
+         <div  className="flex flex-col sm:flex-row items-center justify-center">
+         {pokemon?.abilities.map((ab: string) => {
           return (
             
-              <p key={ab} className="bg-gray-500 p-2 rounded-2xl m-2 text-center flex items-center">{ab}</p>
+              <p key={ab} className="bg-gray-500 p-2 rounded-2xl m-2 text-center flex items-center justify-center">{ab}</p>
             
           );
         })}
@@ -369,8 +406,8 @@ function Details() {
 
       <div className="flex flex-col p-4 justify-center mx-auto ">
         <h3 className="flex justify-center font-bold mb-4">TYPES</h3>
-        <div  className="flex flex-row ">
-        {pokemon?.types.map((t) => {
+        <div  className="flex flex-row items-center justify-center">
+        {pokemon?.types.map((t: string) => {
           return (
             <div >
               <p className="bg-gray-500 p-2 rounded-2xl m-2 text-center flex items-center" key={t}>{t}</p>
@@ -379,6 +416,10 @@ function Details() {
         })}
         </div>
       </div>
+</div>
+
+)}
+
     </div>
   );
 }

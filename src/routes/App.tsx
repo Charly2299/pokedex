@@ -38,8 +38,8 @@ function App() {
 
       {/* Rutas sin layout (como 404) */}
       <Route path="*" element={
-        <div className="min-h-screen flex items-center justify-center m-0">
-          <h2 className="text-2xl font-bold">404 Not Found</h2>
+        <div className="min-h-screen w-full flex flex-col items-center justify-center m-0">
+          <h2 className="text-2xl font-bold mb-4">404 Not Found</h2>
 
           <img src={Pikachu} alt="" className="w-[300px] h-auto"/>
         </div>

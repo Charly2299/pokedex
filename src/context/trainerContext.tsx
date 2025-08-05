@@ -13,14 +13,16 @@ const trainerContext = createContext<trainerType>({
 });
 
 // Verificar localStorage
-const savedTrainer = localStorage.getItem("trainer") || null;
+const savedTrainer = ((): "male" | "female" | null => {
+  const value = localStorage.getItem("trainer");
+  if (value === "male" || value === "female") return value;
+  return null;
+})();
 
+function TrainerProvider({ children }: { children: ReactNode }) {
+  const [trainer, setTrainer] = useState<"male" | "female" | null>(savedTrainer);
 
-function TrainerProvider({ children }: { children: 
-    ReactNode }) {
-  const [trainer, setTrainer] = useState<string | null>(savedTrainer);
-
-  const getTrainer = (trainer: string) => {
+  const getTrainer = (trainer: "male" | "female") => {
     setTrainer(trainer);
     window.localStorage.setItem("trainer", trainer);
   };
@@ -29,11 +31,11 @@ function TrainerProvider({ children }: { children:
     setTrainer(null);
   };
 
-  return(
-    <trainerContext.Provider value={{trainer,getTrainer,cleanTrainer}}
-    >{children}
+  return (
+    <trainerContext.Provider value={{ trainer, getTrainer, cleanTrainer }}>
+      {children}
     </trainerContext.Provider>
-  )
+  );
 }
 
 const useTrainer = () => useContext(trainerContext);

@@ -73,7 +73,7 @@ function Pokedex() {
     setType(e.target.value);
   }
 
-  const { data, getDataAxios, error, loading } = useFetch();
+  const { data = [], getDataAxios } = useFetch();
 
   useEffect(() => {
     getDataAxios(`${baseURl}/pokemon/?limit=1302`);
@@ -113,7 +113,7 @@ function Pokedex() {
       );
       
       setPokemonsTyped(
-        data ? data.filter((p) => filteredByType.includes(p.name)) : []
+        (data ?? []).filter((p: Pokemon) => filteredByType.includes(p.name))
       );
     });
   }, [type]); 

@@ -8,7 +8,7 @@ export function usePagination({ pokemons }: { pokemons: Pokemon[] }) {
   const [page, setPage] = useState(1);
   const itemsPerPage = 24;
   const totalPage = Math.ceil(pokemons.length / itemsPerPage);
-  const range: [] = [];
+  const range: number[] = [];
   const maxVisibleButtons = 3;
   const half = Math.floor(maxVisibleButtons / 2);
   let start = Math.max(1, page - half);

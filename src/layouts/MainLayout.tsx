@@ -11,8 +11,8 @@ import { useEffect, useState } from "react";
 function MainLayout() {
   const { name, cleanName } = useName();
 
- const {trainer,cleanTrainer} =useTrainer()
-  const { isDark, toggleTheme, theme } = useTheme();
+ const {cleanTrainer} =useTrainer()
+  const { isDark, toggleTheme} = useTheme();
    const [isLoading, setIsLoading] = useState(true);
 
      useEffect(() => {

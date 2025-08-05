@@ -12,8 +12,19 @@ type Pokemon2 = {
 };
 
  */
+type Pokemon = {
+  id: number;
+  name: string;
+  types: { slot: number; type: { name: string; url: string } }[];
+  sprites: {
+    front_default?: string;
+    front_shiny?: string;
+    [key: string]: string | undefined;
+  };
+};
+
 function Item({ url }: { url: string }) {
-  const { data, getDataAxios, error, loading, setData } = useFetch();
+  const { data, getDataAxios,  loading } = useFetch();
 
   useEffect(() => {
     getDataAxios(url);
@@ -103,7 +114,7 @@ function Item({ url }: { url: string }) {
       )}
 
       {
-        /* !loading &&  */ data && (
+        /* !loading &&  */ data && "types" in data && Array.isArray((data as Pokemon).types) && (
           <div
             className="flex flex-col justify-center items-center
             w-full 
@@ -114,30 +125,30 @@ function Item({ url }: { url: string }) {
             gap-x-2
             "
             style={{
-              borderColor: getTypeDarkColor(data?.types?.[0]?.type?.name),
-              background:getTypeMediumColor(data?.types?.[0]?.type?.name)
+              borderColor: getTypeDarkColor((data as Pokemon).types?.[0]?.type?.name),
+              background:getTypeMediumColor((data as Pokemon).types?.[0]?.type?.name)
             }}
           >
             <h3 className="
             text-center font-bold h-[70px] flex justify-center items-center 
              text-base sm:text-base md:text-base lg:text-base
-            ">{data?.name.toUpperCase()}</h3>
-             <p>#{data?.id.toString().padStart(4, "0")}</p>
+            ">{(data as Pokemon)?.name.toUpperCase()}</h3>
+             <p>#{(data as Pokemon)?.id.toString().padStart(4, "0")}</p>
 
            
 
             <img
               src={
-                data.sprites?.front_default ||
-                data.sprites?.front_shiny ||
+                (data as Pokemon)?.sprites?.front_default ||
+                (data as Pokemon)?.sprites?.front_shiny ||
                 pikachu_oscuro
               }
-              alt={data?.name}
+              alt={(data as Pokemon)?.name}
               className="focus-in rounded object-cover w-[250px] h-auto   border-8 mt-2"
             />
 
             <div className="h-[80px] flex flex-row justify-center items-center gap-x-2">
-                {data?.types?.map((t,index) => <div key={t?.type?.name || index} 
+                {(data as Pokemon)?.types?.map((t: { slot: number; type: { name: string; url: string } }, index: number) => <div key={t?.type?.name || index} 
                 className="border-4 rounded p-1"
                  style={{ 
       backgroundColor: getTypeColor(t?.type?.name),
