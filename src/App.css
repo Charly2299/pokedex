@@ -1,0 +1,118 @@
+/* :root {
+
+
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+   font-family: "Press Start 2P", cursive;
+} */
+html, body {
+  overflow-x: hidden; /* Ocultar scroll horizontal */
+  max-width: 100%;
+}
+
+* {
+  box-sizing: border-box; /* Incluir padding y border en el width */
+}
+
+
+.poke__container {
+  display: grid;
+ /*  place-content: center; */
+  /*  place-items: center;  */
+  justify-content: center;
+  min-height: 100dvh;
+font-family: "Press Start 2P", cursive;
+
+}
+
+.active{
+  border: 10px;
+  border-color: black;
+  background-color: red;
+}
+
+
+
+.spinner-container {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #1a1a1a; /* o usa un color si quieres oscurecer el fondo */
+  z-index: 99999;
+  
+   
+}
+
+
+
+.shake-vertical {
+  -webkit-animation: shake-vertical 5s cubic-bezier(0.47, 0, 0.745, 0.715);
+  animation: shake-vertical 2s cubic-bezier(0.47, 0, 0.745, 0.715);
+}
+.shake-vertical img {
+  width: 100vw;
+  max-width: 300px;
+  height: auto;
+}
+
+@-webkit-keyframes shake-vertical {
+  0%,
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+  10%,
+  30%,
+  50%,
+  70% {
+    -webkit-transform: translateY(-8px);
+    transform: translateY(-8px);
+  }
+  20%,
+  40%,
+  60% {
+    -webkit-transform: translateY(8px);
+    transform: translateY(8px);
+  }
+  80% {
+    -webkit-transform: translateY(6.4px);
+    transform: translateY(6.4px);
+  }
+  90% {
+    -webkit-transform: translateY(-6.4px);
+    transform: translateY(-6.4px);
+  }
+}
+@keyframes shake-vertical {
+  0%,
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+  10%,
+  30%,
+  50%,
+  70% {
+    -webkit-transform: translateY(-8px);
+    transform: translateY(-8px);
+  }
+  20%,
+  40%,
+  60% {
+    -webkit-transform: translateY(8px);
+    transform: translateY(8px);
+  }
+  80% {
+    -webkit-transform: translateY(6.4px);
+    transform: translateY(6.4px);
+  }
+  90% {
+    -webkit-transform: translateY(-6.4px);
+    transform: translateY(-6.4px);
+  }
+}
+
+

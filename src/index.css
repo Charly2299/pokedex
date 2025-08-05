@@ -1,0 +1,20 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-pri-light: #eef1de;
+  --color-sec-light: #dce2bd;
+
+  --color-red-light: #bd0000;
+  --color-red-dark: #7d0000;
+
+  --color-black: #000000;
+  --colo-white: #ffffff;
+
+  --color-pri-dark: #1a1a1a;
+  --color-sec-dark: #222222;
+}
+
+@tailwind utilities;
+
+
