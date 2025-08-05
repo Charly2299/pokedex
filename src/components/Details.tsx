@@ -105,6 +105,17 @@ function Details() {
     setIsShiny(!isShiny);
   };
 
+   const getTypeColor = (type: string) => {
+    const colors: Record<string, string> = {
+      fire: "#ef4444", water: "#3b82f6", grass: "#22c55e",
+      electric: "#eab308", psychic: "#a855f7", ice: "#06b6d4",
+      dragon: "#4f46e5", dark: "#4D5B70", fairy: "#ec4899",
+      fighting: "#dc2626", poison: "#7c3aed", ground: "#a3a3a3",
+      flying: "#60a5fa", bug: "#65a30d", rock: "#78716c",
+      ghost: "#6b21a8", steel: "#64748b", normal: "#9ca3af",
+    };
+    return colors[type] || "#6b7280";
+  };
    const getTypeDarkColor = (type: string) => {
     const darkColors: Record<string, string> = {
       fire: "#dc2626",      // red-600
@@ -396,7 +407,7 @@ function Details() {
          {pokemon?.abilities.map((ab: string) => {
           return (
             
-              <p key={ab} className="bg-gray-500 p-2 rounded-2xl m-2 text-center flex items-center justify-center">{ab}</p>
+              <p key={ab} className="bg-gray-500 p-2.5 rounded-2xl m-2 text-center flex items-center justify-center">{ab}</p>
             
           );
         })}
@@ -410,7 +421,12 @@ function Details() {
         {pokemon?.types.map((t: string) => {
           return (
             <div >
-              <p className="bg-gray-500 p-2 rounded-2xl m-2 text-center flex items-center" key={t}>{t}</p>
+              <p className="p-2.5 rounded-2xl m-2 text-center flex items-center" 
+                    style={{ 
+      backgroundColor: getTypeColor(t),
+      borderColor: getTypeColor(t)
+    }}
+              key={t}>{t}</p>
             </div>
           );
         })}
